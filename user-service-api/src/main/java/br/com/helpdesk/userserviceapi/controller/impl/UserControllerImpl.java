@@ -1,7 +1,6 @@
 package br.com.helpdesk.userserviceapi.controller.impl;
 
 import br.com.helpdesk.userserviceapi.controller.UserController;
-import br.com.helpdesk.userserviceapi.entity.User;
 import br.com.helpdesk.userserviceapi.service.UserService;
 import lombok.RequiredArgsConstructor;
 import models.responses.UserResponse;
