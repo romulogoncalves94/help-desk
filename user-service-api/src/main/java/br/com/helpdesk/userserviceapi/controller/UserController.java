@@ -1,6 +1,6 @@
 package br.com.helpdesk.userserviceapi.controller;
 
-import br.com.helpdesk.userserviceapi.entity.User;
+import models.responses.UserResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.*;
 public interface UserController {
 
     @GetMapping("/{id}")
-    ResponseEntity<User> findById(@PathVariable(name = "id") final String id);
+    ResponseEntity<UserResponse> findById(@PathVariable(name = "id") final String id);
 
 }
