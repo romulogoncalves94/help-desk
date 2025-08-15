@@ -2,6 +2,7 @@ package br.com.helpdesk.userserviceapi.controller.exceptions;
 
 import jakarta.servlet.http.HttpServletRequest;
 import models.exceptions.*;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -11,8 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.util.ArrayList;
 
 import static java.time.LocalDateTime.now;
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
 
 @ControllerAdvice
 public class ControllerExceptionHandler {
@@ -24,6 +24,19 @@ public class ControllerExceptionHandler {
                         .timestamp(now())
                         .status(NOT_FOUND.value())
                         .error(NOT_FOUND.getReasonPhrase())
+                        .message(ex.getMessage())
+                        .path(request.getRequestURI())
+                        .build()
+        );
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    ResponseEntity<?> handleDataIntegrityViolationException(final DataIntegrityViolationException ex, final HttpServletRequest request) {
+        return ResponseEntity.status(CONFLICT).body(
+                StandardError.builder()
+                        .timestamp(now())
+                        .status(CONFLICT.value())
+                        .error(CONFLICT.getReasonPhrase())
                         .message(ex.getMessage())
                         .path(request.getRequestURI())
                         .build()
