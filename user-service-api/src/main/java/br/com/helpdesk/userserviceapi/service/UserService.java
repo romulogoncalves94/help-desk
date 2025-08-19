@@ -1,10 +1,12 @@
 package br.com.helpdesk.userserviceapi.service;
 
+import br.com.helpdesk.userserviceapi.entity.User;
 import br.com.helpdesk.userserviceapi.mapper.UserMapper;
 import br.com.helpdesk.userserviceapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import models.exceptions.ResourceNotFoundException;
 import models.requests.CreateUserRequest;
+import models.requests.UpdateUserRequest;
 import models.responses.UserResponse;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -19,10 +21,7 @@ public class UserService {
     private final UserMapper mapper;
 
     public UserResponse findById(final String id) {
-        return mapper.fromEntity(
-                repository.findById(id)
-                        .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado. ID: " + id + " Tipo: " + UserResponse.class.getSimpleName()))
-        );
+        return mapper.fromEntity(find(id));
     }
 
     public void save(CreateUserRequest request) {
@@ -45,4 +44,14 @@ public class UserService {
                 .toList();
     }
 
+    public UserResponse update(final String id, final UpdateUserRequest request) {
+        var entity = find(id);
+        verifyIfEmailAlreadyExists(request.email(), id);
+        return mapper.fromEntity(repository.save(mapper.update(request, entity)));
+    }
+
+    private User find(final String id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado. ID: " + id + " Tipo: " + UserResponse.class.getSimpleName()));
+    }
 }

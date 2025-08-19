@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import models.exceptions.StandardError;
 import models.requests.CreateUserRequest;
+import models.requests.UpdateUserRequest;
 import models.responses.UserResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +35,7 @@ public interface UserController {
     })
     @GetMapping("/{id}")
     ResponseEntity<UserResponse> findById(
-            @Parameter(description = "User ID", required = true, example = "12345")
+            @Parameter(description = "User ID", required = true, example = "689f3d3b875e70383bf9a82f")
             @PathVariable(name = "id") final String id);
 
     @Operation(summary = "Criar um novo usuário")
@@ -50,7 +51,6 @@ public interface UserController {
     @PostMapping
     ResponseEntity<Void> save(@Valid @RequestBody final CreateUserRequest request);
 
-
     @Operation(summary = "Lista de todos os usuários")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Usuários encontrados",
@@ -62,5 +62,25 @@ public interface UserController {
     })
     @GetMapping
     ResponseEntity<List<UserResponse>> findAll();
+
+    @Operation(summary = "Atualizar usuário")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuário atualizado com sucesso",
+                    content = @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = UserResponse.class)
+                    )),
+            @ApiResponse(responseCode = "400", description = "Requisição inválida",
+                    content = @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = StandardError.class)
+                    )),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado",
+                    content = @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = StandardError.class)
+                    )),
+            @ApiResponse(responseCode = "500", description = "Internal server error",
+                    content = @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = StandardError.class)
+                    ))
+    })
+    @PutMapping("/{id}")
+    ResponseEntity<UserResponse> update(@Parameter(description = "User id", required = true, example = "689f3d3b875e70383bf9a82f")
+                                        @PathVariable(name = "id") final String id,
+                                        @Valid @RequestBody final UpdateUserRequest request);
 
 }
