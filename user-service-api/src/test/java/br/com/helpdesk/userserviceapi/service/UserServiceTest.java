@@ -4,6 +4,7 @@ import br.com.helpdesk.userserviceapi.entity.User;
 import br.com.helpdesk.userserviceapi.mapper.UserMapper;
 import br.com.helpdesk.userserviceapi.repository.UserRepository;
 import models.exceptions.ResourceNotFoundException;
+import models.requests.CreateUserRequest;
 import models.responses.UserResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.List;
 import java.util.Optional;
 
+import static br.com.helpdesk.userserviceapi.creator.CreatorUtil.generateMock;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -39,15 +41,15 @@ class UserServiceTest {
     @DisplayName("Quando chamar um FindById com ID válido, retornar um UserResponse")
     void whenCallFindByIdWithValidIdThenReturnUserResponse() {
         when(repository.findById(anyString())).thenReturn(Optional.of(new User()));
-        when(mapper.fromEntity(any(User.class))).thenReturn(mock(UserResponse.class));
+        when(mapper.fromEntity(any(User.class))).thenReturn(generateMock(UserResponse.class));
 
         final var response = service.findById("1");
 
         assertNotNull(response);
         assertEquals(UserResponse.class, response.getClass());
 
-        verify(repository, times(1)).findById(anyString());
-        verify(mapper, times(1)).fromEntity(any(User.class));
+        verify(repository).findById(anyString());
+        verify(mapper).fromEntity(any(User.class));
     }
 
     @Test
@@ -62,7 +64,7 @@ class UserServiceTest {
             assertEquals(ResourceNotFoundException.class, e.getClass());
         }
 
-        verify(repository, times(1)).findById(anyString());
+        verify(repository).findById(anyString());
         verify(mapper, times(0)).fromEntity(any(User.class));
     }
 
@@ -70,7 +72,7 @@ class UserServiceTest {
     @DisplayName("Quando chamar um FindAll, retornar uma lista de UserResponse")
     void whenCallFindAllThenReturnListOfUserResponse() {
         when(repository.findAll()).thenReturn(List.of(new User(), new User()));
-        when(mapper.fromEntity(any(User.class))).thenReturn(mock(UserResponse.class));
+        when(mapper.fromEntity(any(User.class))).thenReturn(generateMock(UserResponse.class));
 
         final var response = service.findAll();
 
@@ -78,9 +80,26 @@ class UserServiceTest {
         assertFalse(response.isEmpty());
         assertEquals(UserResponse.class, response.get(0).getClass());
 
-        verify(repository, times(1)).findAll();
+        verify(repository).findAll();
         verify(mapper, times(2)).fromEntity(any(User.class));
     }
 
+    @Test
+    @DisplayName("Quando chamar um Save com um CreateUserRequest válido, salvar o usuário")
+    void whenCallSaveWithValidCreateUserRequestThenSaveUser() {
+        final var request = generateMock(CreateUserRequest.class);
+
+        when(repository.findByEmail(anyString())).thenReturn(Optional.empty());
+        when(repository.save(any(User.class))).thenReturn(new User());
+        when(mapper.fromRequest(any(CreateUserRequest.class))).thenReturn(new User());
+        when(encoder.encode(anyString())).thenReturn("encodedPassword");
+
+        service.save(request);
+
+        verify(mapper).fromRequest(request);
+        verify(encoder).encode(request.password());
+        verify(repository).findByEmail(request.email());
+        verify(repository).save(any(User.class));
+    }
 
 }
