@@ -102,4 +102,25 @@ class UserServiceTest {
         verify(repository).save(any(User.class));
     }
 
+    @Test
+    @DisplayName("Quando chamar um Save com um email inválido, lançar exceção do tipo DataIntegrityViolationException")
+    void whenCallSaveWithInvalidEmailThenThrowDataIntegrityViolationException() {
+        final var request = generateMock(CreateUserRequest.class);
+        final var entity = generateMock(User.class);
+
+        when(repository.findByEmail(anyString())).thenReturn(Optional.of(entity));
+
+        try {
+            service.save(request);
+        } catch (Exception e) {
+            assertEquals("Email já cadastrado: " + request.email(), e.getMessage());
+            assertEquals(org.springframework.dao.DataIntegrityViolationException.class, e.getClass());
+        }
+
+        verify(repository).findByEmail(request.email());
+        verify(mapper, times(0)).fromRequest(any(CreateUserRequest.class));
+        verify(encoder, times(0)).encode(anyString());
+        verify(repository, times(0)).save(any(User.class));
+    }
+
 }
