@@ -2,16 +2,18 @@ package br.com.helpdesk.userserviceapi.controller.impl;
 
 import br.com.helpdesk.userserviceapi.entity.User;
 import br.com.helpdesk.userserviceapi.repository.UserRepository;
+import models.responses.UserResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static br.com.helpdesk.userserviceapi.creator.CreatorUtil.generateMock;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -40,6 +42,17 @@ class UserControllerImplTest {
                 .andExpect(jsonPath("$.profiles").isArray());
 
         repository.deleteById(userId);
+    }
+
+    @Test
+    void testFindByIdWithNotFoundException() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/users/{id}", "123"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("Usuário não encontrado. ID: " + "123" + " Tipo: " + "UserResponse"))
+                .andExpect(jsonPath("$.error").value(NOT_FOUND.getReasonPhrase()))
+                .andExpect(jsonPath("$.path").value("/api/users/123"))
+                .andExpect(jsonPath("$.status").value(NOT_FOUND.value()))
+                .andExpect(jsonPath("$.timestamp").isNotEmpty());
     }
 
 }
