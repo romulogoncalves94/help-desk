@@ -49,7 +49,7 @@ public class ControllerExceptionHandler {
                 .timestamp(now())
                 .status(BAD_REQUEST.value())
                 .error("Validation Exception")
-                .message("Exceção ao validar atributos")
+                .message("Exception in validation attributes")
                 .errors(new ArrayList<>())
                 .path(request.getRequestURI())
                 .build();
