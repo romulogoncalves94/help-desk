@@ -1,8 +1,7 @@
 package br.com.helpdesk.authserviceapi.controller.exceptions;
 
 import jakarta.servlet.http.HttpServletRequest;
-import models.exceptions.StandardError;
-import models.exceptions.ValidationException;
+import models.exceptions.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
@@ -21,6 +20,19 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(BadCredentialsException.class)
     ResponseEntity<?> handleBadCredentialsException(final BadCredentialsException ex, final HttpServletRequest request) {
+        return ResponseEntity.status(UNAUTHORIZED).body(
+                StandardError.builder()
+                        .timestamp(now())
+                        .status(UNAUTHORIZED.value())
+                        .error(UNAUTHORIZED.getReasonPhrase())
+                        .message(ex.getMessage())
+                        .path(request.getRequestURI())
+                        .build()
+        );
+    }
+
+    @ExceptionHandler(RefreshTokenExpired.class)
+    ResponseEntity<?> handleRefreshTokenExpired(final RefreshTokenExpired ex, final HttpServletRequest request) {
         return ResponseEntity.status(UNAUTHORIZED).body(
                 StandardError.builder()
                         .timestamp(now())
