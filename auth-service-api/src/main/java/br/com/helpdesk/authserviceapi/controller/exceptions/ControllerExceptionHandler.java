@@ -1,10 +1,10 @@
 package br.com.helpdesk.authserviceapi.controller.exceptions;
 
 import jakarta.servlet.http.HttpServletRequest;
-import models.exceptions.*;
-import org.springframework.dao.DataIntegrityViolationException;
+import models.exceptions.StandardError;
+import models.exceptions.ValidationException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -13,18 +13,19 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.util.ArrayList;
 
 import static java.time.LocalDateTime.now;
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @ControllerAdvice
 public class ControllerExceptionHandler {
 
-    @ExceptionHandler(UsernameNotFoundException.class)
-    ResponseEntity<?> handleNotFoundException(final UsernameNotFoundException ex, final HttpServletRequest request) {
-        return ResponseEntity.status(NOT_FOUND).body(
+    @ExceptionHandler(BadCredentialsException.class)
+    ResponseEntity<?> handleBadCredentialsException(final BadCredentialsException ex, final HttpServletRequest request) {
+        return ResponseEntity.status(UNAUTHORIZED).body(
                 StandardError.builder()
                         .timestamp(now())
-                        .status(NOT_FOUND.value())
-                        .error(NOT_FOUND.getReasonPhrase())
+                        .status(UNAUTHORIZED.value())
+                        .error(UNAUTHORIZED.getReasonPhrase())
                         .message(ex.getMessage())
                         .path(request.getRequestURI())
                         .build()

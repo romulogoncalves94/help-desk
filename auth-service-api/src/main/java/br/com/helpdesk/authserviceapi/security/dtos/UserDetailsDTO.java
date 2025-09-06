@@ -1,4 +1,4 @@
-package br.com.helpdesk.authserviceapi.dtos;
+package br.com.helpdesk.authserviceapi.security.dtos;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -38,22 +38,22 @@ public class UserDetailsDTO implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 
 }
