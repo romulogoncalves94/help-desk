@@ -12,7 +12,7 @@ apply from: 'gradle/plugins/dependencies.gradle'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(20)
     }
 }
 
