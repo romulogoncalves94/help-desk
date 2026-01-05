@@ -39,7 +39,7 @@ public class Order implements Serializable {
     @Enumerated(EnumType.STRING)
     private OrderStatusEnum status = OrderStatusEnum.OPEN;
 
-    private LocalDateTime createdAt = now();
+    private LocalDateTime createdAt;
     private LocalDateTime closedAt;
 
 }
