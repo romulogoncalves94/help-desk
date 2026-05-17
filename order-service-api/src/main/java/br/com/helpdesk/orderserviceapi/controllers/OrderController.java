@@ -19,7 +19,7 @@ public interface OrderController {
 
     @Operation(summary = "Criar uma ordem nova",
             responses = {
-                    @ApiResponse(responseCode = "201", description = "Ordem criada com sucesso Teste"),
+                    @ApiResponse(responseCode = "201", description = "Ordem criada com sucesso"),
                     @ApiResponse(responseCode = "400", description = "Requisição inválida", content = @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = StandardError.class))),
                     @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = StandardError.class))),
                     @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = StandardError.class)))
