@@ -37,4 +37,10 @@ public class OrderContollerImpl implements OrderController {
         );
     }
 
+    @Override
+    public ResponseEntity<Void> deleteById(final Long id) {
+        service.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

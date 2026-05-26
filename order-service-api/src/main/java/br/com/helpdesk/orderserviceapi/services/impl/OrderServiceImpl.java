@@ -44,4 +44,9 @@ public class OrderServiceImpl implements OrderService {
         return repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order não encontrada Id: " + id + "Type: " + Order.class.getSimpleName()));
     }
+
+    @Override
+    public void deleteById(Long id) {
+        repository.delete(findById(id));
+    }
 }
