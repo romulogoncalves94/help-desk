@@ -4,6 +4,7 @@ import br.com.helpdesk.orderserviceapi.entities.Order;
 import models.requests.CreatedOrderRequest;
 import models.requests.UpdateOrderRequest;
 import models.responses.OrderResponse;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -13,4 +14,5 @@ public interface OrderService {
     Order findById(final Long id);
     void deleteById(final Long id);
     List<Order> findAll();
+    Page<Order> findAllPaginated(Integer page, Integer linesPerPage, String direction, String orderBy);
 }

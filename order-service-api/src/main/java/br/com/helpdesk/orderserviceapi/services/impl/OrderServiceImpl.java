@@ -5,11 +5,13 @@ import br.com.helpdesk.orderserviceapi.mapper.OrderMapper;
 import br.com.helpdesk.orderserviceapi.repositories.OrderRepository;
 import br.com.helpdesk.orderserviceapi.services.OrderService;
 import lombok.RequiredArgsConstructor;
-import models.enums.OrderStatusEnum;
 import models.exceptions.ResourceNotFoundException;
 import models.requests.CreatedOrderRequest;
 import models.requests.UpdateOrderRequest;
 import models.responses.OrderResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -55,5 +57,17 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> findAll() {
         return repository.findAll();
+    }
+
+    @Override
+    public Page<Order> findAllPaginated(Integer page, Integer linesPerPage, String direction, String orderBy) {
+        PageRequest pageRequest = PageRequest.of(
+                page,
+                linesPerPage,
+                Sort.Direction.valueOf(direction),
+                orderBy
+        );
+
+        return repository.findAll(pageRequest);
     }
 }
