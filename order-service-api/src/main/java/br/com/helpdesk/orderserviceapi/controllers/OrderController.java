@@ -1,6 +1,7 @@
 package br.com.helpdesk.orderserviceapi.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -8,8 +9,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import models.exceptions.StandardError;
 import models.requests.CreatedOrderRequest;
+import models.requests.UpdateOrderRequest;
+import models.responses.OrderResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -26,5 +33,21 @@ public interface OrderController {
             })
     @PostMapping
     ResponseEntity<Void> save(@Valid @RequestBody final CreatedOrderRequest request);
+
+    @Operation(summary = "Atualizar uma ordem",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Ordem atualizada com sucesso"),
+                    @ApiResponse(responseCode = "400", description = "Requisição inválida", content = @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = StandardError.class))),
+                    @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = StandardError.class))),
+                    @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = StandardError.class)))
+            })
+    @PutMapping("/{id}")
+    ResponseEntity<OrderResponse> update(
+            @Parameter(description = "Order id", required = true, example = "10")
+            @PathVariable Long id,
+
+            @Parameter(description = "Update order request", required = true)
+            @Valid @RequestBody UpdateOrderRequest request
+    );
 
 }
