@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Tag(name = "OrderController", description = "Controller responsible for orders operations")
@@ -80,5 +82,13 @@ public interface OrderController {
             @Parameter(description = "Order id", required = true, example = "10")
             @PathVariable final Long id
     );
+
+    @GetMapping
+    @Operation(summary = "Listar todas as Ordens de Serviço",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Ordens encontradas"),
+                    @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(mediaType = APPLICATION_JSON_VALUE, schema = @Schema(implementation = StandardError.class)))
+            })
+    ResponseEntity<List<OrderResponse>> findAll();
 
 }

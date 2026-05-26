@@ -5,9 +5,12 @@ import models.requests.CreatedOrderRequest;
 import models.requests.UpdateOrderRequest;
 import models.responses.OrderResponse;
 
+import java.util.List;
+
 public interface OrderService {
     void save(CreatedOrderRequest request);
     OrderResponse update(final Long id, UpdateOrderRequest request);
     Order findById(final Long id);
     void deleteById(final Long id);
+    List<Order> findAll();
 }
