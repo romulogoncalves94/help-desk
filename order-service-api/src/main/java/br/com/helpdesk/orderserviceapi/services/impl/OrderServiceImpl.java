@@ -1,5 +1,6 @@
 package br.com.helpdesk.orderserviceapi.services.impl;
 
+import br.com.helpdesk.orderserviceapi.clients.UserServiceFeignClient;
 import br.com.helpdesk.orderserviceapi.entities.Order;
 import br.com.helpdesk.orderserviceapi.mapper.OrderMapper;
 import br.com.helpdesk.orderserviceapi.repositories.OrderRepository;
@@ -25,9 +26,11 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository repository;
     private final OrderMapper mapper;
+    private final UserServiceFeignClient userServiceFeignClient;
 
     @Override
     public void save(CreatedOrderRequest request) {
+        validateUserId(request.requesterId());
         repository.save(mapper.fromRequest(request));
     }
 
@@ -69,5 +72,9 @@ public class OrderServiceImpl implements OrderService {
         );
 
         return repository.findAll(pageRequest);
+    }
+
+    void validateUserId(final String userId) {
+        final var response = userServiceFeignClient.findById(userId).getBody();
     }
 }
