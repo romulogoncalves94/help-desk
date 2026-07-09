@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static java.time.LocalDateTime.now;
+import static java.util.Objects.nonNull;
 import static models.enums.OrderStatusEnum.CLOSED;
 
 @Service
@@ -39,6 +40,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderResponse update(Long id, UpdateOrderRequest request) {
+        validateUsers(request);
+        
         Order entity = findById(id);
         entity = mapper.fromRequest(entity, request);
 
@@ -47,6 +50,11 @@ public class OrderServiceImpl implements OrderService {
         }
 
         return mapper.fromEntity(repository.save(entity));
+    }
+
+    private void validateUsers(UpdateOrderRequest request) {
+        if (nonNull(request.requesterId())) validateUserId(request.requesterId());
+        if (nonNull(request.customerId())) validateUserId(request.customerId());
     }
 
     @Override
@@ -77,7 +85,7 @@ public class OrderServiceImpl implements OrderService {
         return repository.findAll(pageRequest);
     }
 
-    UserResponse validateUserId(final String userId) {
+    private UserResponse validateUserId(final String userId) {
         return userServiceFeignClient.findById(userId).getBody();
     }
 }
