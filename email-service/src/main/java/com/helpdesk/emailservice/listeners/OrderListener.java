@@ -1,5 +1,7 @@
 package com.helpdesk.emailservice.listeners;
 
+import com.helpdesk.emailservice.email.EmailService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import models.dtos.OrderCreatedMessage;
 import org.springframework.amqp.rabbit.annotation.Exchange;
@@ -10,7 +12,10 @@ import org.springframework.stereotype.Component;
 
 @Log4j2
 @Component
+@RequiredArgsConstructor
 public class OrderListener {
+
+    private final EmailService emailService;
 
     @RabbitListener(
             bindings = @QueueBinding(
@@ -20,7 +25,8 @@ public class OrderListener {
             )
     )
     public void listener(final OrderCreatedMessage message) {
-        log.info("Ordem de serviço criada com sucesso: {}", message);
+        log.info("Order de serviço recebida: {}", message);
+        emailService.sendMail(message);
     }
 
 }
