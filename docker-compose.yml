@@ -44,6 +44,23 @@ services:
     links:
       - config-server
 
+  db:
+    image: mysql:8.0
+    container_name: mysql_database
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: senha_root_muito_forte
+      MYSQL_DATABASE: orderservice_helpdesk
+      MYSQL_USER: order_user
+      MYSQL_PASSWORD: order_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
 networks:
   helpdesk:
     driver: bridge
+
+volumes:
+  mysql_data:
