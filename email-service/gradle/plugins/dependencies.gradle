@@ -9,10 +9,8 @@ ext {
 }
 
 dependencies {
-
-    implementation('br.com.helpdesk:hd-commons-lib:1.0.0') {
-        because('Biblioteca de classes em comum entre os componentes do projeto')
-    }
+    // Biblioteca de classes em comum entre os componentes do projeto
+    implementation 'br.com.helpdesk:hd-commons-lib:1.0.0'
 
     // Starter para envio de e-mails com Spring Boot
     implementation 'org.springframework.boot:spring-boot-starter-mail'
