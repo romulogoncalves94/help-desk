@@ -7,9 +7,23 @@ ext {
 }
 
 dependencies {
-    implementation 'org.springframework.cloud:spring-cloud-config-server'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    implementation('org.springframework.boot:spring-boot-actuator') {
+        because('Starter para monitoramento e gerenciamento de aplicações Spring Boot')
+    }
+
+    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+
+    implementation('org.springframework.cloud:spring-cloud-config-server') {
+        because('Starter para configuração do Spring Cloud Config')
+    }
+
+    implementation('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client') {
+        because("Starter para integração com o Eureka Discovery Client")
+    }
+
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        because('Starter para testes unitários com o Spring Boot')
+    }
 }
 
 dependencyManagement {
