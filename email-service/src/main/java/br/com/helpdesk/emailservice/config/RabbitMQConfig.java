@@ -1,4 +1,4 @@
-package com.helpdesk.emailservice.config;
+package br.com.helpdesk.emailservice.config;
 
 import org.springframework.amqp.support.converter.SimpleMessageConverter;
 import org.springframework.context.annotation.Bean;

@@ -7,13 +7,3 @@ mail:
   username: ${MAIL_USERNAME:romulolemesjw@gmail.com}
   password: ${MAIL_PASSWORD:nlue zjlj cede erox}
   protocol: ${MAIL_PROTOCOL:smtp}
-  text-created-order-confirmation: |
-    Olá %s, sua ordem de serviço foi criada com sucesso!
-    
-    Detalhes da ordem de serviço:
-    - ID: %s
-    - Título: %s
-    - Descrição: %s
-    - Data de criação%s
-    - Status: %s
-    - Técnico responsável: %s

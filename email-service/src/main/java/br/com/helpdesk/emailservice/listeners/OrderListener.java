@@ -1,6 +1,7 @@
-package com.helpdesk.emailservice.listeners;
+package br.com.helpdesk.emailservice.listeners;
 
-import com.helpdesk.emailservice.email.EmailService;
+import br.com.helpdesk.emailservice.email.EmailService;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import models.dtos.OrderCreatedMessage;
@@ -9,6 +10,8 @@ import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
+
+import static br.com.helpdesk.emailservice.enums.OperationEnum.ORDER_CREATED;
 
 @Log4j2
 @Component
@@ -24,9 +27,9 @@ public class OrderListener {
                     key = "rk.orders.create"
             )
     )
-    public void listener(final OrderCreatedMessage message) {
+    public void listener(final OrderCreatedMessage message) throws MessagingException {
         log.info("Order de serviço recebida: {}", message);
-        emailService.sendMail(message);
+        emailService.sendHtmlMail(message, ORDER_CREATED);
     }
 
 }
