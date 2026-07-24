@@ -29,7 +29,7 @@ public interface OrderFeignClient {
     @PutMapping("/{id}")
     ResponseEntity<OrderResponse> update(
             @PathVariable Long id,
-            @Valid @RequestBody UpdateOrderRequest request
+            @RequestBody UpdateOrderRequest request
     );
 
     @GetMapping("/{id}")

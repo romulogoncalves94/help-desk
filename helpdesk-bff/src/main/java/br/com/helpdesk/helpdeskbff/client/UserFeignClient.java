@@ -24,7 +24,7 @@ public interface UserFeignClient {
     ResponseEntity<UserResponse> findById(@PathVariable(name = "id") final String id);
 
     @PostMapping
-    ResponseEntity<Void> save(@Valid @RequestBody final CreateUserRequest request);
+    ResponseEntity<Void> save(@RequestBody final CreateUserRequest request);
 
     @GetMapping
     ResponseEntity<List<UserResponse>> findAll();
