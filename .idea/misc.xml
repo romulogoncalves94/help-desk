@@ -6,6 +6,7 @@
     <file type="web" url="file://$PROJECT_DIR$/auth-service-api" />
     <file type="web" url="file://$PROJECT_DIR$/config-server" />
     <file type="web" url="file://$PROJECT_DIR$/email-service" />
+    <file type="web" url="file://$PROJECT_DIR$/helpdesk-bff" />
     <file type="web" url="file://$PROJECT_DIR$/order-service-api" />
     <file type="web" url="file://$PROJECT_DIR$/service-discovery" />
     <file type="web" url="file://$PROJECT_DIR$/user-service-api" />

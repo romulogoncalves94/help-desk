@@ -9,6 +9,14 @@
         <outputRelativeToContentRoot value="true" />
         <module name="hd-commons-lib" />
       </profile>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mapstruct/mapstruct-processor/1.5.3.Final/dce418bedafd71ff8dd2cef15006c0fee788b073/mapstruct-processor-1.5.3.Final.jar" />
+        </processorPath>
+        <module name="helpdesk-bff.main" />
+      </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
@@ -25,6 +33,9 @@
       <module name="email-service" options="-parameters" />
       <module name="email-service.main" options="-parameters" />
       <module name="email-service.test" options="-parameters" />
+      <module name="helpdesk-bff" options="-parameters" />
+      <module name="helpdesk-bff.main" options="-parameters" />
+      <module name="helpdesk-bff.test" options="-parameters" />
       <module name="order-service-api" options="-parameters" />
       <module name="order-service-api.main" options="-parameters" />
       <module name="order-service-api.test" options="-parameters" />
