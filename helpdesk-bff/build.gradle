@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.helpdesk'
 version = '1.0.0'
-description = 'service-discovery'
+description = 'helpdesk-bff'
 
 apply from: 'gradle/plugins/dependencies.gradle'
 

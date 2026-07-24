@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/auth-service-api.main.iml" filepath="$PROJECT_DIR$/.idea/modules/auth-service-api.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/email-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/email-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/help-desk.iml" filepath="$PROJECT_DIR$/.idea/help-desk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/helpdesk-bff.main.iml" filepath="$PROJECT_DIR$/.idea/modules/helpdesk-bff.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/order-service-api.main.iml" filepath="$PROJECT_DIR$/.idea/modules/order-service-api.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/user-service-api.main.iml" filepath="$PROJECT_DIR$/.idea/modules/user-service-api.main.iml" />
     </modules>
