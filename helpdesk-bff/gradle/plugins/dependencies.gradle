@@ -60,9 +60,9 @@ dependencies {
         because('Starter para integração com o Redis')
     }
 
-//    implementation('org.springframework.boot:spring-boot-starter-security') {
-//        because('Starter para segurança de aplicações com Spring Security')
-//    }
+    implementation('org.springframework.boot:spring-boot-starter-security') {
+        because('Starter para segurança de aplicações com Spring Security')
+    }
 
     implementation('io.jsonwebtoken:jjwt-api:0.11.2') {
         because('Biblioteca para manipulação de tokens JWT')
