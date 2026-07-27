@@ -1,6 +1,5 @@
 spring:
   application:
     name: 'auth-service-api'
-  cloud:
-    config:
-      uri: 'config-server'
+  profiles:
+    active: ${PROFILE_ACTIVE}
