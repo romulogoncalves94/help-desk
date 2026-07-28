@@ -1,5 +1,6 @@
 package br.com.helpdesk.helpdeskbff.client;
 
+import br.com.helpdesk.helpdeskbff.config.FeignConfig;
 import models.requests.AuthenticateRequest;
 import models.requests.RefreshTokenRequest;
 import models.responses.AuthenticationResponse;
@@ -11,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(
         name = "order-service-api",
-        path = "/api/auth"
+        path = "/api/auth",
+        configuration = FeignConfig.class
 )public interface AuthFeignClient {
 
     @PostMapping("/login")

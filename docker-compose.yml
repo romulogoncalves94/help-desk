@@ -173,9 +173,26 @@ services:
     networks:
       - helpdesk
 
+  redis:
+    container_name: 'redis'
+    image: redis:latest
+    healthcheck:
+      test: redis-cli ping
+    ports:
+      - "6379:6379"
+    expose:
+      - 6379
+    volumes:
+      - redis_data:/data
+    networks:
+      - helpdesk
+
 networks:
   helpdesk:
+    driver: bridge
+  redis_data:
     driver: bridge
 
 volumes:
   mysql_data:
+  redis_data:
