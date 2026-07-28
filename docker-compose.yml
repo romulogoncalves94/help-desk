@@ -140,6 +140,11 @@ services:
       MYSQL_DATABASE: orderservice_helpdesk
       MYSQL_USER: order_user
       MYSQL_PASSWORD: order_pass
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     ports:
       - "3306:3306"
     volumes:
@@ -184,6 +189,33 @@ services:
       - 6379
     volumes:
       - redis_data:/data
+    networks:
+      - helpdesk
+
+  helpdesk-bff:
+    container_name: 'helpdesk-bff'
+    build:
+      context: ./helpdesk-bff
+      dockerfile: Dockerfile
+    environment:
+      - PROFILE_ACTIVE=dev
+      - EUREKA_URI=http://service-discovery:8761/eureka
+      - CONFIG_SERVER_URI=http://config-server:8888
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      config-server:
+        condition: service_healthy
+      service-discovery:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      auth-service-api:
+        condition: service_started
+    ports:
+      - "8080:8080"
+    expose:
+      - 8080
     networks:
       - helpdesk
 
