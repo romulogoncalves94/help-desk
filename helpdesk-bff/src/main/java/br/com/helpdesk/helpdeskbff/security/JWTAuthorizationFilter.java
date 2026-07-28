@@ -18,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static java.time.LocalDateTime.now;
@@ -44,8 +45,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         }
 
         final String authHeader = request.getHeader(AUTHORIZATION);
-
-        if (isNull(authHeader)) {
+        if (authHeader == null) {
             handleException(request.getRequestURI(), "Authorization header is missing", response);
             return;
         }
@@ -53,7 +53,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         if (authHeader.startsWith("Bearer ")) {
             try {
                 UsernamePasswordAuthenticationToken auth = getAuthentication(request);
-                if (nonNull(auth)) SecurityContextHolder.getContext().setAuthentication(auth);
+                if (auth != null) SecurityContextHolder.getContext().setAuthentication(auth);
             } catch (Exception e) {
                 handleException(request.getRequestURI(), e.getMessage(), response);
                 return;
@@ -65,7 +65,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
     private void handleException(String requestURI, String message, HttpServletResponse response) throws IOException {
         StandardError error = StandardError.builder()
-                .timestamp(now())
+                .timestamp(LocalDateTime.now())
                 .status(HttpStatus.UNAUTHORIZED.value())
                 .error(HttpStatus.UNAUTHORIZED.getReasonPhrase())
                 .message(message)
@@ -96,7 +96,6 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         Claims claims = jwtUtil.getClaims(token);
         List<GrantedAuthority> authorities = jwtUtil.getAuthorities(claims);
 
-        return nonNull(username) ? new UsernamePasswordAuthenticationToken(username, null, authorities) : null;
+        return username != null ? new UsernamePasswordAuthenticationToken(username, null, authorities) : null;
     }
-
 }
